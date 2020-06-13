@@ -1,0 +1,67 @@
+function [Ria, FLNC_Oac, Di, Fi_c, Li, Ci_l, P_ia_t] = Data_Generator(WD_N, AP_N, EC_N)
+    %rng(1);
+    WDs = randi([0,1000],2,WD_N);
+    APs = randi([0,25],2,AP_N);
+    ECs = randi([0,100],2,EC_N);
+
+    P_ia_t = 0.05 + 0.13*rand(1,WD_N);
+    Di = 0.2 + 3.8*rand(1,WD_N);
+    Fi_l = 0.5 + 0.5*rand(1,WD_N); 
+    Fi_c = [32, 64, 96];
+    %Fi_c = [64, 64, 64];
+
+    [Li] = Li_X_Caculator(Di);
+
+    % local cost
+    Ci_l = zeros(1,WD_N);
+    % Ria[WD_N, AP_N] matrix
+    Ria = zeros(WD_N,AP_N);
+    for xi = 1:WD_N
+        Ci_l(1,xi) = Li(1,xi)/Fi_l(1,xi);
+        for ai = 1:AP_N
+            Ria(xi,ai) = Ria_Caculator(WDs(1,xi), WDs(2,xi), APs(1,ai), APs(2,ai), P_ia_t(1,xi));
+        end
+    end
+    
+    FLNC_Oac = FLNC_findEC(APs, ECs);
+    
+end
+
+function [Li] = Li_X_Caculator(Di)
+    [~,WD_N] = size(Di);
+    Li = zeros(1,WD_N);
+    for i = 1:WD_N
+        x = abs(normrnd(0.5,1.6));
+        Li(1,i) = Di(1,i)*x;
+    end
+end
+
+function Ria = Ria_Caculator(WD_x, WD_y, AP_x, AP_y, P_t)
+    dis = sqrt(power((WD_x-AP_x),2)+power((WD_y-AP_y),2))/1000; % distance between WDi and APi
+    B_ia = 5;
+    alpha = -4;
+    Pn = 0.01; % given number
+    Ria = B_ia*log(1+power(dis, alpha)*P_t/(Pn));
+end
+
+function FLNC_Oac = FLNC_findEC(APs, ECs)
+    % get FLNC_EA dis_ac
+    [ ~ , AP_N] = size(APs);
+    [ ~ , EC_N] = size(ECs);
+    dis_ac = zeros(AP_N,EC_N);
+    for i = 1:AP_N
+        for j = 1:EC_N
+            dis_x = 40*APs(1,i)-10*ECs(1,j);
+            dis_y = 40*APs(2,i)-10*ECs(2,j);
+            dis = power(dis_x,2) + power(dis_y,2);
+            dis_ac(i,j) = sqrt(dis);
+        end
+    end
+    
+    % calcu FLNC_Oac
+    FLNC_Oac = zeros(1,AP_N);
+    for i = 1:AP_N
+        [~,I] = min(dis_ac(i,:));
+        FLNC_Oac(1,i) = I;
+    end
+end
