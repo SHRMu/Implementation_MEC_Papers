@@ -1,4 +1,4 @@
-function [Dia_FLNC_OA, Dic_FLNC_OA, Nia_off, Nic_off, Cost_FLNC_OA, Cost_Cloud_FLNC_OA] = FLNC_OA(Ria, FLNC_Oac, Di, Li, Fi_c, Ci_l)
+function [Nic_off, Cost_FLNC_OA, Cost_Cloud_FLNC_OA] = FLNC_OA(Ria, FLNC_Oac, Di, Li, Fi_c, Ci_l)
     [WD_N,AP_N] = size(Ria);
     [~,EC_N] = size(Fi_c);
     

@@ -1,4 +1,4 @@
-function [Dia_ILC_OA, Dic_ILC_OA, Cost_ILC_OA] = ILC_OA(Ria, Di, Li, Fi_c, Ci_l)
+function [Nic_ILC_OA, Cost_ILC_OA, Cost_Cloud_ILC_OA] = ILC_OA(Ria, Di, Li, Fi_c, Ci_l)
 
     [WD_N, AP_N] = size(Ria);
     [~,EC_N] = size(Fi_c);
@@ -35,7 +35,7 @@ function [Dia_ILC_OA, Dic_ILC_OA, Cost_ILC_OA] = ILC_OA(Ria, Di, Li, Fi_c, Ci_l)
                 check = 1;
                 while check ~= 0
                     check = 0;
-                    for pre_i = 1:xi
+                    for pre_i = index(1,1:i)
                         pre_ai = dia(1,pre_i);
                         pre_ei = dic(1,pre_i);
                         if pre_ai ~= 0 && pre_ei ~= 0
@@ -52,9 +52,7 @@ function [Dia_ILC_OA, Dic_ILC_OA, Cost_ILC_OA] = ILC_OA(Ria, Di, Li, Fi_c, Ci_l)
                 end
             else
                 cost(1,i) = Ci_l(1,i);
-            end
-            
-                        
+            end           
         end
         Dia_ILC_OA(xi,1:xi) = dia;
         Nia_ILC_OA(xi,:) = nia;
@@ -70,6 +68,17 @@ function [Dia_ILC_OA, Dic_ILC_OA, Cost_ILC_OA] = ILC_OA(Ria, Di, Li, Fi_c, Ci_l)
         Cost_ILC_OA(1,xi) = sum(Ci_ILC_OA(xi,:));
     end
     
+    Cost_Cloud_ILC_OA = zeros(WD_N,EC_N);
+    for xi=1:WD_N
+        dic = Dic_ILC_OA(xi,1:xi);
+        for di = 1:xi
+            ei = dic(1,di);
+            if ei ~= 0
+                Cost_Cloud_ILC_OA(xi,ei) = Cost_Cloud_ILC_OA(xi,ei) + Ci_ILC_OA(xi,di); 
+            end
+        end
+    end
+    
 end
 
 function [wia, ai, wic, ei] = find_AP_EC(xi, Ria, Di, Li, Fi_c, dia, dic)
@@ -79,14 +88,14 @@ function [wia, ai, wic, ei] = find_AP_EC(xi, Ria, Di, Li, Fi_c, dia, dic)
     wic_list = zeros(1,EC_N);
     for ai = 1:AP_N
         wia = sqrt(Di(1,xi)/Ria(xi,ai));
-        wia = wia*(wia + sum_wia(xi, ai, Di, Ria, dia));
+        wia = wia*(wia + sum_wia(ai, Di, Ria, dia));
         wia_list(1,ai) = wia;  
     end
     
     for ei = 1:EC_N
         wic = sqrt(Li(1,xi)/Fi_c(1,ei));
-        wic = wic*(wic+sum_wic(xi, ei, Li, Fi_c, dic));
-        wic_list(1,ei) = wic*wic;
+        wic = wic*(wic+sum_wic(ei, Li, Fi_c, dic));
+        wic_list(1,ei) = wic;
     end
     
     [wia, ai] = min(wia_list);
@@ -102,9 +111,9 @@ function [wia, ai, wic, ei] = update_AP_EC(xi, Ria, Di, Li, Fi_c, dia, pre_ai, d
     for ai = 1:AP_N
         wia = sqrt(Di(1,xi)/Ria(xi,ai));
         if ai ~= pre_ai
-            wia = wia*(wia + sum_wia(xi, ai, Di, Ria, dia));
+            wia = wia*(wia + sum_wia(ai, Di, Ria, dia));
         else
-            wia = wia*(sum_wia(xi, ai, Di, Ria, dia));
+            wia = wia*(sum_wia(ai, Di, Ria, dia));
         end
         wia_list(1,ai) = wia;  
     end
@@ -112,11 +121,11 @@ function [wia, ai, wic, ei] = update_AP_EC(xi, Ria, Di, Li, Fi_c, dia, pre_ai, d
     for ei = 1:EC_N
         wic = sqrt(Li(1,xi)/Fi_c(1,ei));
         if ei ~= pre_ei
-            wic = wic*(wic + sum_wic(xi, ei, Li, Fi_c, dic));
+            wic = wic*(wic + sum_wic(ei, Li, Fi_c, dic));
         else
-            wic = wic*(sum_wic(xi, ei, Li, Fi_c, dic));
+            wic = wic*(sum_wic(ei, Li, Fi_c, dic));
         end
-        wic_list(1,ei) = wic*wic;
+        wic_list(1,ei) = wic;
     end
     
     [wia, ai] = min(wia_list);
@@ -124,20 +133,22 @@ function [wia, ai, wic, ei] = update_AP_EC(xi, Ria, Di, Li, Fi_c, dia, pre_ai, d
     
 end
 
-function sum = sum_wia(xi, ai, Di, Ria, dia)
+function sum = sum_wia(ai, Di, Ria, dia)
     sum = 0;
-    for i = 1:xi
-        if dia(1,i) == ai
-            sum = sum + sqrt(Di(1,i)/Ria(i,ai));
+    [~,num] = size(dia);
+    for xi = 1:num
+        if dia(1,xi) == ai
+            sum = sum + sqrt(Di(1,xi)/Ria(xi,ai));
         end
     end
 end
 
-function sum = sum_wic(xi, ei, Li, Fi_c, dic)
+function sum = sum_wic(ei, Li, Fi_c, dic)
     sum = 0;
-    for j = 1:xi
-        if dic(1,j) == ei
-            sum = sum + sqrt(Li(1,j)/Fi_c(1,ei));
+    [~,num] = size(dic);
+    for xi = 1:num
+        if dic(1,xi) == ei
+            sum = sum + sqrt(Li(1,xi)/Fi_c(1,ei));
         end
     end 
 end

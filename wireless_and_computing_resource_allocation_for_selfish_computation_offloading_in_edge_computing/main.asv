@@ -73,31 +73,25 @@ grid on
 
 %Figure 5
 
-% Y_Nic_FLNC_EA = getY(X, AVE_Nic_FLNC_EA);
-% plot(X, Y_Nic_FLNC_EA(:,1), '--bs', ...
-%      X, Y_Nic_FLNC_EA(:,2), '-.bs', ...
-%      X, Y_Nic_FLNC_EA(:,3), '-bs');
-% xlabel('Number of WDs');
-% ylabel('Number of WDs per cloud (EA-FLNC)');
-% legend('32GHz','64GHz','96GHz');
-% grid on
+Y_Nic_FLNC_EA = getY(X, AVE_Nic_FLNC_EA);
+plot(X, Y_Nic_FLNC_EA(:,1), '--bs', ...
+     X, Y_Nic_FLNC_EA(:,2), '-.bs', ...
+     X, Y_Nic_FLNC_EA(:,3), '-bs');
+xlabel('Number of WDs');
+ylabel('Number of WDs per cloud');
+legend('EA FLNC','OA_ILC');
+grid on
 
 % Y_Nic_FLNC_OA = getY(X, AVE_Nic_FLNC_OA);
 % plot(X, Y_Nic_FLNC_OA(:,1), '--o', ...
 %      X, Y_Nic_FLNC_OA(:,2), '-.o', ...
 %      X, Y_Nic_FLNC_OA(:,3), '-o');
-% xlabel('Number of WDs');
-% ylabel('Number of WDs per cloud (OA-FLNC)');
-% legend('32GHz','64GHz','96GHz');
 % grid on
 
 % Y_Nic_ILC_OA = getY(X, AVE_Nic_ILC_OA);
 % plot(X, Y_Nic_ILC_OA(:,1), '--*', ...
 %      X, Y_Nic_ILC_OA(:,2), '-.*', ...
 %      X, Y_Nic_ILC_OA(:,3), '-*');
-% xlabel('Number of WDs');
-% ylabel('Number of WDs per cloud (OA-ILC)');
-% legend('32GHz','64GHz','96GHz');
 % grid on
 
 % Y_Nic_FLNC_EA = getY(X, AVE_Nic_FLNC_EA);
@@ -106,9 +100,6 @@ grid on
 % plot(X, Y_Nic_FLNC_EA(:,3), '-bs', ...
 %      X, Y_Nic_FLNC_OA(:,3), '-o', ...
 %      X, Y_Nic_ILC_OA(:,3), '-*');
-% xlabel('Number of WDs');
-% ylabel('Number of WDs per cloud');
-% legend('EA-FLNC','OA-FLNC','OA-ILC'); 
 % grid on
 
 %Figure 6
@@ -117,19 +108,13 @@ grid on
 % plot(X, Y_Cost_Cloud_FLNC_EA(:,1), '--bs', ...
 %      X, Y_Cost_Cloud_FLNC_EA(:,2), '-.bs', ...
 %      X, Y_Cost_Cloud_FLNC_EA(:,3), '-bs');
-% xlabel('Number of WDs');
-% ylabel('Cost per cloud (EA-FLNC)');
-% legend('32GHz','64GHz','96GHz'); 
 % grid on
 
-Y_Cost_Cloud_FLNC_OA = getY(X, AVE_Cost_Cloud_FLNC_OA);
-plot(X, Y_Cost_Cloud_FLNC_OA(:,1), '--o', ...
-     X, Y_Cost_Cloud_FLNC_OA(:,2), '-.o', ...
-     X, Y_Cost_Cloud_FLNC_OA(:,3), '-o');
-xlabel('Number of WDs');
-ylabel('Cost per cloud (OA-FLNC)');
-legend('32GHz','64GHz','96GHz'); 
-grid on
+% Y_Cost_Cloud_FLNC_OA = getY(X, AVE_Cost_Cloud_FLNC_OA);
+% plot(X, Y_Cost_Cloud_FLNC_OA(:,1), '--o', ...
+%      X, Y_Cost_Cloud_FLNC_OA(:,2), '-.o', ...
+%      X, Y_Cost_Cloud_FLNC_OA(:,3), '-o');
+% grid on
 
 % Y_Cost_Cloud_ILC_OA = getY(X, AVE_Cost_Cloud_ILC_OA);
 % plot(X, Y_Cost_Cloud_ILC_OA(:,1), '--*', ...

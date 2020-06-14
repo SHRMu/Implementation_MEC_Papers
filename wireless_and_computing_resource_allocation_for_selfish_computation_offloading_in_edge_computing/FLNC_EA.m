@@ -1,4 +1,4 @@
-function [Dia_FLNC_EA, Dic_FLNC_EA, Nia_off, Nic_off, Cost_FLNC_EA, Cost_Cloud_FLNC_EA] = FLNC_EA(Ria, FLNC_Oac, Di, Li, Fi_c, Ci_l)
+function [Nic_off, Cost_FLNC_EA, Cost_Cloud_FLNC_EA] = FLNC_EA(Ria, FLNC_Oac, Di, Li, Fi_c, Ci_l)
 
     [WD_N,AP_N] = size(Ria);
     [~,EC_N] = size(Fi_c);
@@ -7,7 +7,9 @@ function [Dia_FLNC_EA, Dic_FLNC_EA, Nia_off, Nic_off, Cost_FLNC_EA, Cost_Cloud_F
     Dic_FLNC_EA = zeros(WD_N, WD_N);
     Nia_off = zeros(WD_N, AP_N);
     Nic_off = zeros(WD_N, EC_N);
+    
     Ci_FLNC_EA = zeros(WD_N, WD_N);
+    Cost_FLNC_EA = zeros(1,WD_N);
     
     for xi = 1:WD_N
         [wia, ai] = FLNC_EA_findAP(Ria(xi,:), Nia_off(xi,:));
@@ -22,7 +24,7 @@ function [Dia_FLNC_EA, Dic_FLNC_EA, Nia_off, Nic_off, Cost_FLNC_EA, Cost_Cloud_F
             Nic_off(xi:WD_N,ei) = Nic_off(xi,ei) + 1;
             Ci_FLNC_EA(xi:WD_N,xi) = Cia;
             % update previous Ci
-            for pre_i = 1:xi
+            for pre_i = 1:xi-1
                 pre_ai = Dia_FLNC_EA(xi,pre_i);
                 pre_ei = Dic_FLNC_EA(xi,pre_i);
                 if pre_ai == ai || pre_ei == ei
@@ -32,11 +34,7 @@ function [Dia_FLNC_EA, Dic_FLNC_EA, Nia_off, Nic_off, Cost_FLNC_EA, Cost_Cloud_F
             end
         else
             Ci_FLNC_EA(xi:WD_N,xi) = Ci_l(1,xi);
-        end    
-    end
-    
-    Cost_FLNC_EA = zeros(1,WD_N);
-    for xi = 1:WD_N
+        end
         Cost_FLNC_EA(1,xi) = sum(Ci_FLNC_EA(xi,:));
     end
     

@@ -6,7 +6,8 @@ function [Ria, FLNC_Oac, Di, Fi_c, Li, Ci_l, P_ia_t] = Data_Generator(WD_N, AP_N
 
     P_ia_t = 0.05 + 0.13*rand(1,WD_N);
     Di = 0.2 + 3.8*rand(1,WD_N);
-    Fi_l = 0.5 + 0.5*rand(1,WD_N); 
+    Fi_l = 0.5+0.5*rand(1,WD_N);
+    %Fi_c = [196];
     Fi_c = [32, 64, 96];
     %Fi_c = [64, 64, 64];
 
@@ -30,9 +31,9 @@ end
 function [Li] = Li_X_Caculator(Di)
     [~,WD_N] = size(Di);
     Li = zeros(1,WD_N);
+    X = gamrnd(0.5,1.6,1,WD_N);
     for i = 1:WD_N
-        x = abs(normrnd(0.5,1.6));
-        Li(1,i) = Di(1,i)*x;
+        Li(1,i) = X(1,i) * Di(1,i);
     end
 end
 
@@ -41,7 +42,7 @@ function Ria = Ria_Caculator(WD_x, WD_y, AP_x, AP_y, P_t)
     B_ia = 5;
     alpha = -4;
     Pn = 0.01; % given number
-    Ria = B_ia*log(1+power(dis, alpha)*P_t/(Pn));
+    Ria = B_ia*log10(1+power(dis, alpha)*P_t/(Pn));
 end
 
 function FLNC_Oac = FLNC_findEC(APs, ECs)
