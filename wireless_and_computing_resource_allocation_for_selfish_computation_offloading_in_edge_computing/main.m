@@ -51,24 +51,15 @@ AVE_Cost_Cloud_ILC_OA = SUM_Cost_Cloud_ILC_OA/TIMES;
 X = [1,2,4,6,8,10,20,30,40,50];
 
 %Figure 3
-
-% Y_PG_OA_FLNC = getPG_Y(X, AVE_PG_OA_FLNC);
-% Y_PG_OA_ILC = getPG_Y(X, AVE_PG_OA_ILC);
-% plot(X, Y_PG_OA_FLNC, '-o', ...
-%     X, Y_PG_OA_ILC, '-*');
-% xlabel('Number of WDs');
-% ylabel('Performance gain');
-% legend('OA_FLNC','OA_ILC');
-% grid on
-
 %Figure 4
-%Performance gain vs. numbers of WDs for A = 5APs, 
-%Heterogenous ECs, Fc,tot = 192GHz
 
 Y_PG_OA_FLNC = getPG_Y(X, AVE_PG_OA_FLNC);
 Y_PG_OA_ILC = getPG_Y(X, AVE_PG_OA_ILC);
 plot(X, Y_PG_OA_FLNC, '-o', ...
     X, Y_PG_OA_ILC, '-*');
+xlabel('Number of WDs');
+ylabel('Performance gain');
+legend('OA-FLNC','OA-ILC');
 grid on
 
 %Figure 5
@@ -122,19 +113,22 @@ grid on
 % legend('32GHz','64GHz','96GHz'); 
 % grid on
 
-Y_Cost_Cloud_FLNC_OA = getY(X, AVE_Cost_Cloud_FLNC_OA);
-plot(X, Y_Cost_Cloud_FLNC_OA(:,1), '--o', ...
-     X, Y_Cost_Cloud_FLNC_OA(:,2), '-.o', ...
-     X, Y_Cost_Cloud_FLNC_OA(:,3), '-o');
-xlabel('Number of WDs');
-ylabel('Cost per cloud (OA-FLNC)');
-legend('32GHz','64GHz','96GHz'); 
-grid on
+% Y_Cost_Cloud_FLNC_OA = getY(X, AVE_Cost_Cloud_FLNC_OA);
+% plot(X, Y_Cost_Cloud_FLNC_OA(:,1), '--o', ...
+%      X, Y_Cost_Cloud_FLNC_OA(:,2), '-.o', ...
+%      X, Y_Cost_Cloud_FLNC_OA(:,3), '-o');
+% xlabel('Number of WDs');
+% ylabel('Cost per cloud (OA-FLNC)');
+% legend('32GHz','64GHz','96GHz'); 
+% grid on
 
 % Y_Cost_Cloud_ILC_OA = getY(X, AVE_Cost_Cloud_ILC_OA);
 % plot(X, Y_Cost_Cloud_ILC_OA(:,1), '--*', ...
 %      X, Y_Cost_Cloud_ILC_OA(:,2), '-.*', ...
 %      X, Y_Cost_Cloud_ILC_OA(:,3), '-*');
+% xlabel('Number of WDs');
+% ylabel('Cost per cloud (OA-ILC)');
+% legend('32GHz','64GHz','96GHz'); 
 % grid on
 
 % Y_Cost_Cloud_FLNC_EA = getY(X, AVE_Cost_Cloud_FLNC_EA);
@@ -143,6 +137,9 @@ grid on
 % plot(X, Y_Cost_Cloud_FLNC_EA(:,3), '-bs', ...
 %      X, Y_Cost_Cloud_FLNC_OA(:,3), '-o', ...
 %      X, Y_Cost_Cloud_ILC_OA(:,3), '-*');
+% xlabel('Number of WDs');
+% ylabel('Cost per cloud');
+% legend('EA-FLNC','OA-FLNC','OA-ILC'); 
 % grid on
 
 function Y = getY(X, AVE_Nic)

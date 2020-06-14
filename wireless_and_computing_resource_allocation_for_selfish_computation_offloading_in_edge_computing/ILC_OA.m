@@ -35,7 +35,7 @@ function [Nic_ILC_OA, Cost_ILC_OA, Cost_Cloud_ILC_OA] = ILC_OA(Ria, Di, Li, Fi_c
                 check = 1;
                 while check ~= 0
                     check = 0;
-                    for pre_i = index(1,1:i)
+                    for pre_i = index(1,1:find(index==i))
                         pre_ai = dia(1,pre_i);
                         pre_ei = dic(1,pre_i);
                         if pre_ai ~= 0 && pre_ei ~= 0
