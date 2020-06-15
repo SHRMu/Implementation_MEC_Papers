@@ -7,7 +7,7 @@ function [Ria, FLNC_Oac, Di, Fi_c, Li, Ci_l, P_ia_t] = Data_Generator(WD_N, AP_N
 
     P_ia_t = 0.05 + 0.13*rand(1,WD_N);
     Di = 0.2 + 3.8*rand(1,WD_N);
-    Fi_l = 0.5 + 0.5*rand(1,WD_N); % given number
+    Fi_l = 0.8 + 0.5*rand(1,WD_N); % given number
 %     sz = [1, WD_N];
 %     P_ia_t = unifrnd(0.05,0.18,sz);
 %     Di = unifrnd(0.2,4.0,sz);
@@ -48,7 +48,7 @@ function Ria = Ria_Caculator(WD_x, WD_y, AP_x, AP_y, P_t)
     dis = sqrt(power((WD_x-AP_x),2)+power((WD_y-AP_y),2))/1000; % distance between WDi and APi
     B_ia = 5;
     alpha = -4;
-    Pn = 0.001; % given number
+    Pn = 0.0001; % given number
     Ria = B_ia*log2(1+power(dis, alpha)*P_t/(Pn));
 end
 

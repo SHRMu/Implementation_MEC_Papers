@@ -16,37 +16,37 @@ SUM_Cost_Cloud_FLNC_EA = zeros(WD_N,EC_N);
 SUM_Cost_Cloud_FLNC_OA = zeros(WD_N,EC_N);
 SUM_Cost_Cloud_ILC_OA = zeros(WD_N,EC_N);
 
-for i = 1:TIMES
-    
-    [Ria, FLNC_Oac, Di, Fi_c, Li, Ci_l, P_ia_t] = Data_Generator(WD_N, AP_N, EC_N);
-    
-    [PG_OA_FLNC, PG_OA_ILC, ...
-         Nic_EA_FLNC, Nic_OA_FLNC, Nic_OA_ILC, ...
-         Cost_Cloud_FLNC_EA, Cost_Cloud_FLNC_OA, Cost_Cloud_ILC_OA] = Performance_Gain(Ria, FLNC_Oac, Di, Li, Fi_c, Ci_l);
-    
-    SUM_PG_OA_FLNC = SUM_PG_OA_FLNC + PG_OA_FLNC;
-    SUM_PG_OA_ILC = SUM_PG_OA_ILC + PG_OA_ILC;
-    
-    SUM_Nic_FLNC_EA = SUM_Nic_FLNC_EA + Nic_EA_FLNC;
-    SUM_Nic_FLNC_OA = SUM_Nic_FLNC_OA + Nic_OA_FLNC;
-    SUM_Nic_ILC_OA = SUM_Nic_ILC_OA + Nic_OA_ILC;
-    
-    SUM_Cost_Cloud_FLNC_EA = SUM_Cost_Cloud_FLNC_EA + Cost_Cloud_FLNC_EA;
-    SUM_Cost_Cloud_FLNC_OA = SUM_Cost_Cloud_FLNC_OA + Cost_Cloud_FLNC_OA;
-    SUM_Cost_Cloud_ILC_OA = SUM_Cost_Cloud_ILC_OA + Cost_Cloud_ILC_OA;
-   
-end
-
-AVE_PG_OA_FLNC = SUM_PG_OA_FLNC/TIMES;
-AVE_PG_OA_ILC = SUM_PG_OA_ILC/TIMES;
-
-AVE_Nic_FLNC_EA = SUM_Nic_FLNC_EA/TIMES;
-AVE_Nic_FLNC_OA = SUM_Nic_FLNC_OA/TIMES;
-AVE_Nic_ILC_OA = SUM_Nic_ILC_OA/TIMES;
-
-AVE_Cost_Cloud_FLNC_EA = SUM_Cost_Cloud_FLNC_EA/TIMES;
-AVE_Cost_Cloud_FLNC_OA = SUM_Cost_Cloud_FLNC_OA/TIMES;
-AVE_Cost_Cloud_ILC_OA = SUM_Cost_Cloud_ILC_OA/TIMES;
+% for i = 1:TIMES
+%     
+%     [Ria, FLNC_Oac, Di, Fi_c, Li, Ci_l, P_ia_t] = Data_Generator(WD_N, AP_N, EC_N);
+%     
+%     [PG_OA_FLNC, PG_OA_ILC, ...
+%          Nic_EA_FLNC, Nic_OA_FLNC, Nic_OA_ILC, ...
+%          Cost_Cloud_FLNC_EA, Cost_Cloud_FLNC_OA, Cost_Cloud_ILC_OA] = Performance_Gain(Ria, FLNC_Oac, Di, Li, Fi_c, Ci_l);
+%     
+%     SUM_PG_OA_FLNC = SUM_PG_OA_FLNC + PG_OA_FLNC;
+%     SUM_PG_OA_ILC = SUM_PG_OA_ILC + PG_OA_ILC;
+%     
+%     SUM_Nic_FLNC_EA = SUM_Nic_FLNC_EA + Nic_EA_FLNC;
+%     SUM_Nic_FLNC_OA = SUM_Nic_FLNC_OA + Nic_OA_FLNC;
+%     SUM_Nic_ILC_OA = SUM_Nic_ILC_OA + Nic_OA_ILC;
+%     
+%     SUM_Cost_Cloud_FLNC_EA = SUM_Cost_Cloud_FLNC_EA + Cost_Cloud_FLNC_EA;
+%     SUM_Cost_Cloud_FLNC_OA = SUM_Cost_Cloud_FLNC_OA + Cost_Cloud_FLNC_OA;
+%     SUM_Cost_Cloud_ILC_OA = SUM_Cost_Cloud_ILC_OA + Cost_Cloud_ILC_OA;
+%    
+% end
+% 
+% AVE_PG_OA_FLNC = SUM_PG_OA_FLNC/TIMES;
+% AVE_PG_OA_ILC = SUM_PG_OA_ILC/TIMES;
+% 
+% AVE_Nic_FLNC_EA = SUM_Nic_FLNC_EA/TIMES;
+% AVE_Nic_FLNC_OA = SUM_Nic_FLNC_OA/TIMES;
+% AVE_Nic_ILC_OA = SUM_Nic_ILC_OA/TIMES;
+% 
+% AVE_Cost_Cloud_FLNC_EA = SUM_Cost_Cloud_FLNC_EA/TIMES;
+% AVE_Cost_Cloud_FLNC_OA = SUM_Cost_Cloud_FLNC_OA/TIMES;
+% AVE_Cost_Cloud_ILC_OA = SUM_Cost_Cloud_ILC_OA/TIMES;
 
 X = [1,2,4,6,8,10,20,30,40,50];
 
@@ -56,7 +56,7 @@ X = [1,2,4,6,8,10,20,30,40,50];
 Y_PG_OA_FLNC = getPG_Y(X, AVE_PG_OA_FLNC);
 Y_PG_OA_ILC = getPG_Y(X, AVE_PG_OA_ILC);
 plot(X, Y_PG_OA_FLNC, '-o', ...
-    X, Y_PG_OA_ILC, '-*');
+X, Y_PG_OA_ILC, '-*');
 xlabel('Number of WDs');
 ylabel('Performance gain');
 legend('OA-FLNC','OA-ILC');
@@ -143,24 +143,20 @@ grid on
 % grid on
 
 function Y = getY(X, AVE_Nic)
-    Y = zeros(10,3);
-    for i = 1:length(X)
-        item = X(i);
-        Y(i,:) = AVE_Nic(item,:);
-    end 
+Y = zeros(10,3);
+for i = 1:length(X)
+item = X(i);
+Y(i,:) = AVE_Nic(item,:);
+end 
 end
 
 function Y = getPG_Y(X, AVE_PG)
-    Y = zeros(1,10);
-    for i = 1:length(X)
-        item = X(i);
-        Y(i) = AVE_PG(item);
-    end 
+Y = zeros(1,10);
+for i = 1:length(X)
+item = X(i);
+Y(i) = AVE_PG(item);
+end 
 end
-
-
-
-
 
 
 
